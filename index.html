@@ -791,6 +791,7 @@ function openPlusPopup() {
     tileContent.style.display = 'none';
     uploadArea.style.display = 'none';
     saveButton.style.display = 'none';
+    saveCardButton.style.display = 'none'; // Hide Save button for New Card
     selectedType = '';
     fileBlob = null;
 
@@ -813,23 +814,30 @@ plusOverlay.addEventListener('click', function(event) {
 
 
 // Select New Tile Form
+// Select New Tile Form
 function selectNewTile() {
     document.getElementById('newTileForm').style.display = 'block';
     document.getElementById('newCardForm').style.display = 'none';
     
-    // Hide the image upload area
+    // Hide the image upload area for cards
     cardImageUploadArea.style.display = 'none';
     
     // Reset any previous image upload
     cardImageUploadMessage.textContent = 'Upload a background picture';
     cardImageBlob = null;
     
+    // Show the Save button for New Tile and hide the one for New Card
+    saveButton.style.display = 'block';
+    saveCardButton.style.display = 'none';
+    
     // Update button styles to indicate selection
     document.getElementById('newTileBtn').classList.add('active');
     document.getElementById('newCardBtn').classList.remove('active');
 }
+}
 
 
+// Select New Card Form
 // Select New Card Form
 function selectNewCard() {
     document.getElementById('newTileForm').style.display = 'none';
@@ -837,6 +845,10 @@ function selectNewCard() {
     
     // Show the image upload area
     cardImageUploadArea.style.display = 'block';
+    
+    // Show the Save button for New Card and hide the one for New Tile
+    saveCardButton.style.display = 'block';
+    saveButton.style.display = 'none';
     
     // Update button styles to indicate selection
     document.getElementById('newTileBtn').classList.remove('active');
