@@ -1,5 +1,3 @@
-The good one - cards
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,7 +185,7 @@ The good one - cards
 
 /* Save Button */
 .save-btn {
-    display: none; /* Hidden by default */
+    display: block;
     width: 100%;
     padding: 10px;
     background-color: #007BFF;
@@ -195,15 +193,12 @@ The good one - cards
     border-radius: 8px;
     color: #fff;
     cursor: pointer;
+    margin-top: 15px;
 }
+
 
 .save-btn:hover {
     background-color: #0056b3;
-}
-
-/* Display the Save button within the Tile Selection Popup */
-.tile-selection-save-btn {
-    display: block; /* Override to make it visible */
 }
 
 
@@ -1263,9 +1258,6 @@ function handleCardImageUpload(file) {
 }
 
 
-// Add event listener for Save button in Tile Selection Popup
-document.getElementById('addTilesToCardButton').addEventListener('click', addSelectedTilesToCard);
-
 // Open Tile Selection Popup
 function openTileSelectionPopup() {
     tileSelectionOverlay.classList.add('open');
@@ -1273,12 +1265,14 @@ function openTileSelectionPopup() {
     displayTileSelectionTiles();
 }
 
+
 // Close Tile Selection Popup when clicking outside
 tileSelectionOverlay.addEventListener('click', function(event) {
     if (event.target === tileSelectionOverlay) {
         tileSelectionOverlay.classList.remove('open');
     }
 });
+
 
 // Display Tiles in Tile Selection Popup
 function displayTileSelectionTiles() {
@@ -1343,16 +1337,19 @@ function displayTileSelectionTiles() {
     };
 }
 
+
 // Search in Tile Selection Popup
 tileSelectionSearchInput.addEventListener('input', function() {
     displayTileSelectionTiles();
 });
+
 
 // Add Selected Tiles to Card
 function addSelectedTilesToCard() {
     tileSelectionOverlay.classList.remove('open');
     displaySelectedTiles();
 }
+
 
 // Display Selected Tiles in Card Form
 function displaySelectedTiles() {
@@ -1395,6 +1392,7 @@ function displaySelectedTiles() {
         console.error('Error fetching tiles:', event.target.error.message);
     };
 }
+
 
 // Save Card Function
 function saveCard() {
