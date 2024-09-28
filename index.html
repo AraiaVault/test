@@ -1,4 +1,3 @@
-New code - cards
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,573 +7,513 @@ New code - cards
         /* CSS Styles */
 
         body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-}
-
-
-/* Overlay */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 4;
-}
-
-
-.overlay.open {
-    display: flex;
-}
-
-
-/* Header */
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #000;
-}
-
-
-.title {
-    font-size: 24px;
-    color: #fff;
-    margin: 0;
-}
-
-
-/* Search Bar */
-.search-bar-container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-}
-
-
-.search {
-    width: 750px;
-    padding: 10px;
-    border-radius: 30px;
-    border: 1px solid #555;
-    font-size: 16px;
-    background-color: #222;
-    color: #fff;
-    text-align: left;
-}
-
-
-/* Add Tile Button */
-.add-tile-container {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-    position: relative;
-}
-
-
-.add-tile {
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    background-color: #333;
-    cursor: pointer;
-    color: #fff;
-    font-size: 30px;
-    line-height: 50px;
-    text-align: center;
-}
-
-
-.add-tile:hover {
-    background-color: #555;
-}
-
-
-/* Plus Popup */
-.plus-popup {
-    background-color: #222;
-    padding: 20px;
-    border-radius: 10px;
-    width: 350px;
-    box-sizing: border-box;
-}
-
-
-/* Popup Type Selection */
-.popup-type-selection {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-    gap: 10px;
-}
-
-
-.popup-type-btn {
-    padding: 10px 20px;
-    background-color: #444;
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-}
-
-
-.popup-type-btn.active {
-    background-color: #666;
-}
-
-
-.popup-type-btn:hover {
-    background-color: #666;
-}
-
-
-.popup-content input,
-.popup-content textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    background-color: #333;
-    border: 1px solid #555;
-    border-radius: 5px;
-    color: #fff;
-    box-sizing: border-box;
-}
-
-
-.popup-content textarea {
-    height: 150px;
-    resize: none; /* Fixed size */
-    overflow-y: auto; /* Scroll vertically */
-}
-
-
-/* File Types Buttons */
-.file-types {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-
-.file-type-btn {
-    padding: 10px 20px;
-    background-color: #444;
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-}
-
-
-.file-type-btn:hover {
-    background-color: #666;
-}
-
-
-/* Save Button */
-.save-btn {
-    display: none;
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-}
-
-
-.save-btn:hover {
-    background-color: #0056b3;
-}
-
-
-/* Upload Area */
-.upload-area {
-    display: block; /* Temporarily force display */
-    width: 100%;
-    height: 150px;
-    border: 2px dashed #555;
-    border-radius: 5px;
-    background-color: #333;
-    color: #ffffff;
-    text-align: center;
-    padding: 20px;
-    cursor: pointer;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-}
-
-
-.upload-area p {
-    margin: 0;
-}
-
-
-/* Remove "Choose File" button */
-.upload-area input[type="file"] {
-    display: none;
-}
-
-
-/* Tiles Container */
-.tiles-container,
-.search-results-container {
-    margin: 20px auto;
-    width: 90%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-}
-
-
-/* Tiles */
-.tile {
-    position: relative;
-    border: 1px solid #555;
-    width: 120px;
-    height: 60px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    overflow: hidden;
-}
-
-
-/* Tile Title */
-.tile h3 {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    margin: 0;
-    font-size: 14px;
-    width: calc(100% - 10px);
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-}
-
-
-/* Tile Tag */
-.tile-tag {
-    position: absolute;
-    top: -5px;
-    left: 0;
-    background-color: #777;
-    padding: 5px 10px;
-    border-radius: 3px 0 5px 0; /* Rounded bottom-right edge */
-    font-size: 12px;
-    color: #fff;
-    z-index: 1;
-}
-
-
-/* Tile Popup */
-.tile-popup {
-    background-color: #222;
-    padding: 20px;
-    border-radius: 10px;
-    width: 600px;
-    max-height: 80%;
-    overflow-y: auto;
-    box-sizing: border-box;
-    color: #fff;
-    text-align: center;
-    position: relative;
-}
-
-
-/* Tile Popup Tag */
-.tile-popup-tag {
-    position: absolute;
-    top: -5px;
-    left: 0;
-    background-color: #777;
-    padding: 10px 15px;
-    border-radius: 3px 0 5px 0; /* Rounded bottom-right edge */
-    font-size: 14px;
-    color: #fff;
-    z-index: 1;
-}
-
-
-/* Tile Actions */
-.tile-actions {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-}
-
-
-.tile-action-btn {
-    background-color: #444;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 15px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-
-.tile-action-btn:hover {
-    background-color: #666;
-}
-
-
-/* Replace Button (for image/video tiles) */
-.replace-btn {
-    display: none; /* Will be displayed for image/video tiles */
-    margin-bottom: 15px;
-    background-color: #007BFF;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-}
-
-
-.replace-btn:hover {
-    background-color: #0056b3;
-}
-
-
-/* Tile Title */
-.popup-tile-title {
-    width: 100%;
-    padding: 10px;
-    margin-top: 50px; /* Reduce margin-top to raise the title textbox */
-    margin-bottom: 15px;
-    background-color: #333;
-    border: 1px solid #555;
-    border-radius: 10px; /* More rounded */
-    color: #fff;
-    box-sizing: border-box;
-    text-align: left;
-    font-size: 18px;
-}
-
-
-/* Tile Content */
-.popup-tile-content textarea {
-    width: 100%;
-    height: 200px; /* Reduce vertical size */
-    padding: 10px;
-    background-color: #333;
-    border: 1px solid #555;
-    border-radius: 5px;
-    color: #fff; /* Text color white */
-    font-size: 16px;
-    box-sizing: border-box;
-    resize: none; /* Fixed size */
-    overflow-y: auto; /* Scroll vertically */
-}
-
-
-/* File Container */
-.file-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-
-.file-container img,
-.file-container video {
-    max-width: 100%;
-    margin-bottom: 10px;
-}
-
-
-/* New Card Form Styles */
-.add-tiles-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
-
-.add-tiles-plus {
-    border: 2px dashed #555;
-    width: 100%;
-    height: 50px;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 30px;
-    line-height: 50px;
-    text-align: center;
-    cursor: pointer;
-}
-
-
-.add-tiles-plus:hover {
-    background-color: #333;
-}
-
-
-.selected-tiles-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-
-/* Tile Selection Popup */
-.tile-selection-popup {
-    background-color: #222;
-    padding: 20px;
-    border-radius: 10px;
-    width: 600px;
-    max-height: 80%;
-    overflow-y: auto;
-    box-sizing: border-box;
-    color: #fff;
-    text-align: center;
-    position: relative;
-}
-
-
-.tile-selection-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-
-.tile-selection-tile {
-    position: relative;
-    border: 1px solid #555;
-    width: 120px;
-    height: 60px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    overflow: hidden;
-}
-
-
-.tile-selection-tile.selected {
-    border-color: #007BFF;
-}
-
-
-.tile-selection-tile h3 {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    margin: 0;
-    font-size: 14px;
-    width: calc(100% - 10px);
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-}
-
-
-/* Adjusted Search Bar in Tile Selection Popup */
-.tile-selection-popup .search {
-    width: 300px;
-}
-
-
-/* Main Menu Cards */
-.cards-container {
-    margin: 20px;
-}
-
-
-.card {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 30px;
-}
-
-
-.card-image {
-    width: 150px;
-    height: 100px;
-    background-color: #333;
-    background-size: cover;
-    background-position: center;
-    border-radius: 5px;
-    margin-right: 20px;
-}
-
-
-.card-title {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-
-.card-tiles-container {
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-}
-
-
-.card-tiles-container .tile {
-    flex: 0 0 auto;
-}
-
-
-/* Scrollbar Styling */
-.card-tiles-container::-webkit-scrollbar {
-    height: 8px;
-}
-
-
-.card-tiles-container::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 4px;
-}
-
-
-.all-tiles-section {
-    margin: 20px;
-    margin-top: 50px;
-}
-
-
-.all-tiles-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 4;
+        }
+
+        .overlay.open {
+            display: flex;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #000;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #fff;
+            margin: 0;
+        }
+
+        /* Search Bar */
+        .search-bar-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search {
+            width: 750px;
+            padding: 10px;
+            border-radius: 30px;
+            border: 1px solid #555;
+            font-size: 16px;
+            background-color: #222;
+            color: #fff;
+            text-align: left;
+        }
+
+        /* Add Tile Button */
+        .add-tile-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .add-tile {
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background-color: #333;
+            cursor: pointer;
+            color: #fff;
+            font-size: 30px;
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .add-tile:hover {
+            background-color: #555;
+        }
+
+        /* Plus Popup */
+        .plus-popup {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+            box-sizing: border-box;
+        }
+
+        /* Popup Type Selection */
+        .popup-type-selection {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .popup-type-btn {
+            padding: 10px 20px;
+            background-color: #444;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .popup-type-btn.active {
+            background-color: #666;
+        }
+
+        .popup-type-btn:hover {
+            background-color: #666;
+        }
+
+        .popup-content input,
+        .popup-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        .popup-content textarea {
+            height: 150px;
+            resize: none; /* Fixed size */
+            overflow-y: auto; /* Scroll vertically */
+        }
+
+        /* File Types Buttons */
+        .file-types {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .file-type-btn {
+            padding: 10px 20px;
+            background-color: #444;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .file-type-btn:hover {
+            background-color: #666;
+        }
+
+        /* Save Button */
+        .save-btn {
+            display: none;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            display: none; /* Controlled via JavaScript */
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #555;
+            border-radius: 5px;
+            background-color: #333;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            cursor: pointer;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            margin: 0;
+        }
+
+        /* Remove "Choose File" button */
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        /* Tiles Container */
+        .tiles-container,
+        .search-results-container {
+            margin: 20px auto;
+            width: 90%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        /* Tiles */
+        .tile {
+            position: relative;
+            border: 1px solid #555;
+            width: 120px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        /* Tile Title */
+        .tile h3 {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            margin: 0;
+            font-size: 14px;
+            width: calc(100% - 10px);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+        }
+
+        /* Tile Tag */
+        .tile-tag {
+            position: absolute;
+            top: -5px;
+            left: 0;
+            background-color: #777;
+            padding: 5px 10px;
+            border-radius: 3px 0 5px 0; /* Rounded bottom-right edge */
+            font-size: 12px;
+            color: #fff;
+            z-index: 1;
+        }
+
+        /* Tile Popup */
+        .tile-popup {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            width: 600px;
+            max-height: 80%;
+            overflow-y: auto;
+            box-sizing: border-box;
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Tile Popup Tag */
+        .tile-popup-tag {
+            position: absolute;
+            top: -5px;
+            left: 0;
+            background-color: #777;
+            padding: 10px 15px;
+            border-radius: 3px 0 5px 0; /* Rounded bottom-right edge */
+            font-size: 14px;
+            color: #fff;
+            z-index: 1;
+        }
+
+        /* Tile Actions */
+        .tile-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tile-action-btn {
+            background-color: #444;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .tile-action-btn:hover {
+            background-color: #666;
+        }
+
+        /* Replace Button (for image/video tiles) */
+        .replace-btn {
+            display: none; /* Will be displayed for image/video tiles */
+            margin-bottom: 15px;
+            background-color: #007BFF;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .replace-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Tile Title */
+        .popup-tile-title {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px; /* Adjusted margin-top */
+            margin-bottom: 15px;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 10px; /* More rounded */
+            color: #fff;
+            box-sizing: border-box;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        /* Tile Content */
+        .popup-tile-content textarea {
+            width: 100%;
+            height: 200px; /* Reduce vertical size */
+            padding: 10px;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: #fff; /* Text color white */
+            font-size: 16px;
+            box-sizing: border-box;
+            resize: none; /* Fixed size */
+            overflow-y: auto; /* Scroll vertically */
+        }
+
+        /* File Container */
+        .file-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .file-container img,
+        .file-container video {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        /* New Card Form Styles */
+        .add-tiles-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .add-tiles-plus {
+            border: 2px dashed #555;
+            width: 100%;
+            height: 50px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 30px;
+            line-height: 50px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .add-tiles-plus:hover {
+            background-color: #333;
+        }
+
+        .selected-tiles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Tile Selection Popup */
+        .tile-selection-popup {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            width: 600px;
+            max-height: 80%;
+            overflow-y: auto;
+            box-sizing: border-box;
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .tile-selection-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tile-selection-tile {
+            position: relative;
+            border: 1px solid #555;
+            width: 120px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .tile-selection-tile.selected {
+            border-color: #007BFF;
+        }
+
+        .tile-selection-tile h3 {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            margin: 0;
+            font-size: 14px;
+            width: calc(100% - 10px);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+        }
+
+        /* Adjusted Search Bar in Tile Selection Popup */
+        .tile-selection-popup .search {
+            width: 300px;
+            margin-bottom: 15px;
+        }
+
+        /* Main Menu Cards */
+        .cards-container {
+            margin: 20px;
+        }
+
+        .card {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .card-image {
+            width: 150px;
+            height: 100px;
+            background-color: #333;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card-tiles-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+        }
+
+        .card-tiles-container .tile {
+            flex: 0 0 auto;
+        }
+
+        /* Scrollbar Styling */
+        .card-tiles-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .card-tiles-container::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 4px;
+        }
+
+        .all-tiles-section {
+            margin: 20px;
+            margin-top: 50px;
+        }
+
+        .all-tiles-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -586,12 +525,10 @@ New code - cards
         </div>
     </div>
 
-
-    <!-- Plus Button and Popup -->
+    <!-- Add Tile Button and Popup -->
     <div class="add-tile-container">
         <button type="button" class="add-tile" onclick="openPlusPopup()">+</button>
     </div>
-
 
     <!-- Plus Popup -->
     <div class="overlay" id="plusOverlay">
@@ -621,27 +558,26 @@ New code - cards
                 </div>
                 <!-- New Card Form -->
                 <div id="newCardForm" style="display:none;">
-                      <input type="text" id="cardTitle" required class="tile-name-input" placeholder="Enter card title...">
-                 <!-- Image Upload Area -->
-                 <div id="cardImageUploadArea" class="upload-area">
-                     <p id="cardImageUploadMessage">Upload a background picture</p>
-                     <input type="file" id="cardImageInput" class="hidden" accept="image/*">
-                 </div>
-                <!-- Add Tiles Area -->
-                <div class="add-tiles-container">
-                   <div class="add-tiles-plus" onclick="openTileSelectionPopup()">+</div>
-                  </div>
-                        <!-- Selected Tiles Display -->
-                      <div class="selected-tiles-container" id="selectedTilesContainer">
-          <!-- Tiles will be displayed here -->
-             </div>
-                     <!-- Save Button -->
-              <button id="saveCardButton" class="save-btn" onclick="saveCard()">Save</button>
+                    <input type="text" id="cardTitle" required class="tile-name-input" placeholder="Enter card title...">
+                    <!-- Image Upload Area -->
+                    <div id="cardImageUploadArea" class="upload-area">
+                        <p id="cardImageUploadMessage">Upload a background picture</p>
+                        <input type="file" id="cardImageInput" class="hidden" accept="image/*">
+                    </div>
+                    <!-- Add Tiles Area -->
+                    <div class="add-tiles-container">
+                        <div class="add-tiles-plus" onclick="openTileSelectionPopup()">+</div>
+                    </div>
+                    <!-- Selected Tiles Display -->
+                    <div class="selected-tiles-container" id="selectedTilesContainer">
+                        <!-- Tiles will be displayed here -->
+                    </div>
+                    <!-- Save Button -->
+                    <button id="saveCardButton" class="save-btn" onclick="saveCard()">Save</button>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!-- Tile Selection Popup -->
     <div class="overlay" id="tileSelectionOverlay">
@@ -654,12 +590,10 @@ New code - cards
         </div>
     </div>
 
-
     <!-- Cards Display Area -->
     <div class="cards-container" id="cardsContainer">
         <!-- Cards will be displayed here -->
     </div>
-
 
     <!-- All Tiles Section -->
     <div class="all-tiles-section">
@@ -669,9 +603,8 @@ New code - cards
         <div class="tiles-container" id="tilesContainer"></div>
     </div>
 
-
     <!-- Tile Menu Popup -->
-    <div class="overlay" id="tileOverlay">
+    <div class="overlay" id="tileOverlayMenu">
         <div class="tile-popup" id="tilePopup">
             <!-- Tile Tag -->
             <div class="tile-popup-tag" id="tilePopupTag"></div>
@@ -693,14 +626,14 @@ New code - cards
     <!-- JavaScript for IndexedDB and Functionality -->
     <script>
         // JavaScript Code
-    
+
         let db;
         const dbName = 'vaultDB';
         const storeName = 'tiles';
-    
+
         function openDB() {
             const request = indexedDB.open(dbName, 1);
-    
+
             request.onupgradeneeded = function(event) {
                 db = event.target.result;
                 if (!db.objectStoreNames.contains(storeName)) {
@@ -710,21 +643,21 @@ New code - cards
                     db.createObjectStore('cards', { keyPath: 'id', autoIncrement: true });
                 }
             };
-    
+
             request.onsuccess = function(event) {
                 db = event.target.result;
                 console.log('Database opened successfully.');
                 displayTiles(); // Load tiles when DB is ready
                 displayCards(); // Load cards
             };
-    
+
             request.onerror = function(event) {
                 console.error('Database error:', event.target.errorCode);
             };
         }
-    
+
         window.onload = openDB;
-    
+
         // DOM Elements
         const plusPopup = document.getElementById('plusPopup');
         const plusOverlay = document.getElementById('plusOverlay');
@@ -737,19 +670,19 @@ New code - cards
         const uploadMessage = document.getElementById('uploadMessage');
         const searchInput = document.getElementById('searchInput');
         const searchResultsContainer = document.getElementById('searchResultsContainer');
-    
-        const tileOverlay = document.getElementById('tileOverlay');
+
+        const tileOverlay = document.getElementById('tileOverlayMenu'); // Changed ID to avoid conflict
         const tilePopup = document.getElementById('tilePopup');
         const popupTileTitle = document.getElementById('popupTileTitle');
         const tilePopupTag = document.getElementById('tilePopupTag');
         const popupTileContent = document.getElementById('popupTileContent');
         const replaceBtn = document.getElementById('replaceBtn');
-    
+
         // Tile action buttons
         const shareBtn = document.getElementById('shareBtn');
         const deleteBtn = document.getElementById('deleteBtn');
         const favoriteBtn = document.getElementById('favoriteBtn');
-    
+
         // New Card Form Elements
         const cardTitle = document.getElementById('cardTitle');
         const cardImageUploadArea = document.getElementById('cardImageUploadArea');
@@ -757,22 +690,22 @@ New code - cards
         const cardImageInput = document.getElementById('cardImageInput');
         const saveCardButton = document.getElementById('saveCardButton'); // Ensure this element exists
         const selectedTilesContainer = document.getElementById('selectedTilesContainer');
-    
+
         // Tile Selection Popup Elements
         const tileSelectionOverlay = document.getElementById('tileSelectionOverlay');
         const tileSelectionPopup = document.getElementById('tileSelectionPopup');
         const tileSelectionContainer = document.getElementById('tileSelectionContainer');
         const tileSelectionSearchInput = document.getElementById('tileSelectionSearchInput');
-    
+
         // Cards Container
         const cardsContainer = document.getElementById('cardsContainer');
-    
+
         let selectedType = ''; // To keep track of the selected file type
         let fileBlob = null;   // To store the uploaded file
         let currentTile = null; // To keep track of the tile being viewed/edited
         let cardImageBlob = null; // To store the uploaded card image
         let selectedTileIds = []; // To store selected tile IDs for the card
-    
+
         // Open Plus Popup
         function openPlusPopup() {
             plusOverlay.classList.add('open');
@@ -785,23 +718,23 @@ New code - cards
             saveCardButton.style.display = 'none'; // Hide Save button for New Card
             selectedType = '';
             fileBlob = null;
-    
+
             cardTitle.value = '';
             cardImageUploadMessage.textContent = 'Upload a background picture';
             cardImageBlob = null;
             selectedTileIds = [];
             selectedTilesContainer.innerHTML = '';
-    
+
             selectNewTile(); // Default to 'New Tile'
         }
-    
+
         // Close Plus Popup when clicking outside
         plusOverlay.addEventListener('click', function(event) {
             if (event.target === plusOverlay) {
                 plusOverlay.classList.remove('open');
             }
         });
-    
+
         // Select New Tile Form
         function selectNewTile() {
             document.getElementById('newTileForm').style.display = 'block';
@@ -822,7 +755,7 @@ New code - cards
             document.getElementById('newTileBtn').classList.add('active');
             document.getElementById('newCardBtn').classList.remove('active');
         }
-    
+
         // Select New Card Form
         function selectNewCard() {
             document.getElementById('newTileForm').style.display = 'none';
@@ -839,7 +772,7 @@ New code - cards
             document.getElementById('newTileBtn').classList.remove('active');
             document.getElementById('newCardBtn').classList.add('active');
         }
-    
+
         // Tile Type Selection Functions
         function selectTxt() {
             selectedType = 'text';
@@ -847,19 +780,19 @@ New code - cards
             uploadArea.style.display = 'none';
             saveButton.style.display = 'block';
         }
-    
+
         function selectImg() {
             selectedType = 'image';
             setupUploadArea('image/*');
             uploadMessage.textContent = 'Upload a picture';
         }
-    
+
         function selectMov() {
             selectedType = 'video';
             setupUploadArea('video/*');
             uploadMessage.textContent = 'Upload a video';
         }
-    
+
         function setupUploadArea(accept) {
             tileContent.style.display = 'none';
             uploadArea.style.display = 'block';
@@ -868,11 +801,11 @@ New code - cards
             fileInput.value = '';
             fileBlob = null;
         }
-    
+
         uploadArea.addEventListener('click', () => {
             fileInput.click();
         });
-    
+
         fileInput.addEventListener('change', () => {
             if (fileInput.files.length > 0) {
                 handleFileUpload(fileInput.files[0]);
@@ -880,7 +813,7 @@ New code - cards
                 uploadMessage.textContent = selectedType === 'image' ? 'Upload a picture' : 'Upload a video';
             }
         });
-    
+
         function handleFileUpload(file) {
             const reader = new FileReader();
             reader.onload = function(event) {
@@ -890,14 +823,14 @@ New code - cards
             };
             reader.readAsArrayBuffer(file);
         }
-    
+
         function saveTile() {
             const title = tileTitle.value.trim();
             if (!title) {
                 alert('Please enter a title.');
                 return;
             }
-    
+
             if (selectedType === 'text') {
                 const content = tileContent.value.trim();
                 if (!content) {
@@ -924,35 +857,35 @@ New code - cards
                 alert('Please provide content for the tile.');
                 return;
             }
-    
+
             plusOverlay.classList.remove('open');
         }
-    
+
         function addTile(data) {
             const transaction = db.transaction([storeName], 'readwrite');
             const store = transaction.objectStore(storeName);
             const request = store.add(data);
-    
+
             request.onsuccess = function() {
                 console.log('Tile added to the store:', request.result);
                 displayTiles(); // Update UI to reflect new tile
             };
-    
+
             request.onerror = function(event) {
                 console.error('Error adding tile:', event.target.error.message);
             };
         }
-    
+
         function displayTiles() {
             tilesContainer.innerHTML = ''; // Clear existing tiles
             const transaction = db.transaction([storeName], 'readonly');
             const store = transaction.objectStore(storeName);
             const request = store.getAll();
-    
+
             request.onsuccess = function(event) {
                 let tiles = event.target.result;
                 const searchTerm = searchInput.value.toLowerCase();
-    
+
                 if (searchTerm) {
                     searchResultsContainer.innerHTML = '';
                     searchResultsContainer.style.display = 'flex';
@@ -961,14 +894,14 @@ New code - cards
                         const contentMatch = tile.content && tile.content.toLowerCase().includes(searchTerm);
                         return titleMatch || contentMatch;
                     });
-    
+
                     // Prioritize tiles with title matches
                     tiles.sort((a, b) => {
                         const aTitleMatch = a.title.toLowerCase().includes(searchTerm) ? 1 : 0;
                         const bTitleMatch = b.title.toLowerCase().includes(searchTerm) ? 1 : 0;
                         return bTitleMatch - aTitleMatch;
                     });
-    
+
                     tiles.forEach(tile => {
                         const tileDiv = createTileElement(tile);
                         searchResultsContainer.appendChild(tileDiv);
@@ -983,70 +916,60 @@ New code - cards
                     });
                 }
             };
-    
+
             request.onerror = function(event) {
                 console.error('Error fetching tiles:', event.target.error.message);
             };
         }
-    
+
         function createTileElement(tile) {
             const tileDiv = document.createElement('div');
             tileDiv.classList.add('tile');
             tileDiv.dataset.id = tile.id; // Store the tile ID for reference
-    
+
             const title = document.createElement('h3');
             title.textContent = tile.title;
             tileDiv.appendChild(title);
-    
+
             // Add tile type tag
             const tileTag = document.createElement('div');
             tileTag.classList.add('tile-tag');
             tileTag.textContent = tile.type === 'text' ? 'txt' : tile.type === 'image' ? 'img' : 'mov';
             tileDiv.appendChild(tileTag);
-    
+
             // Add click event to open tile popup
             tileDiv.addEventListener('click', () => openTilePopup(tile));
-    
+
             return tileDiv;
         }
-    
+
         // Open Tile Popup
         function openTilePopup(tile) {
             currentTile = tile; // Store the current tile
             tileOverlay.classList.add('open');
             popupTileTitle.value = tile.title;
             popupTileTitle.readOnly = false; // Allow editing
-    
+
             // Set tile tag
             tilePopupTag.textContent = tile.type === 'text' ? 'txt' : tile.type === 'image' ? 'img' : 'mov';
-    
+
             // Clear previous content
             popupTileContent.innerHTML = '';
             replaceBtn.style.display = 'none'; // Hide replace button by default
-    
+
             // Display content based on type and make it editable
             if (tile.type === 'text') {
                 const contentArea = document.createElement('textarea');
                 contentArea.value = tile.content;
-                contentArea.style.width = '100%';
-                contentArea.style.height = '200px'; // Reduce vertical size
-                contentArea.style.backgroundColor = '#333'; // Match background color
-                contentArea.style.color = '#fff'; // Text color white
-                contentArea.style.border = '1px solid #555';
-                contentArea.style.borderRadius = '5px';
-                contentArea.style.padding = '10px';
-                contentArea.style.resize = 'none'; // Fixed size
-                contentArea.style.overflowY = 'auto'; // Scrollable
-                contentArea.style.boxSizing = 'border-box';
                 popupTileContent.appendChild(contentArea);
             } else if (tile.type === 'image' || tile.type === 'video') {
                 // Show replace button between title and media
                 replaceBtn.style.display = 'block';
                 replaceBtn.onclick = () => replaceFile(tile.type);
-    
+
                 const mediaContainer = document.createElement('div');
                 mediaContainer.classList.add('file-container');
-    
+
                 let mediaElement;
                 if (tile.type === 'image') {
                     mediaElement = document.createElement('img');
@@ -1058,14 +981,11 @@ New code - cards
                     const videoURL = URL.createObjectURL(tile.blob);
                     mediaElement.src = videoURL;
                 }
-                mediaElement.style.maxWidth = '100%';
-                mediaElement.style.marginBottom = '10px';
-    
                 mediaContainer.appendChild(mediaElement);
                 popupTileContent.appendChild(mediaContainer);
             }
         }
-    
+
         // Replace file function
         function replaceFile(type) {
             const acceptType = type === 'image' ? 'image/*' : 'video/*';
@@ -1086,7 +1006,7 @@ New code - cards
             };
             input.click();
         }
-    
+
         // Close Tile Popup when clicking outside
         tileOverlay.addEventListener('click', function(event) {
             if (event.target === tileOverlay) {
@@ -1096,11 +1016,11 @@ New code - cards
                 }
             }
         });
-    
+
         function closeTilePopup() {
             tileOverlay.classList.remove('open');
         }
-    
+
         function validateTileContent() {
             if (!currentTile.title.trim()) {
                 alert('Title cannot be empty.');
@@ -1116,38 +1036,38 @@ New code - cards
             }
             return true;
         }
-    
+
         // Handle tile action buttons
         shareBtn.addEventListener('click', function() {
             alert('Share functionality is not implemented yet.');
         });
-    
+
         deleteBtn.addEventListener('click', function() {
             if (confirm('Are you sure you want to delete this tile?')) {
                 deleteTile(currentTile.id);
                 closeTilePopup();
             }
         });
-    
+
         favoriteBtn.addEventListener('click', function() {
             alert('Favorite functionality is not implemented yet.');
         });
-    
+
         function deleteTile(id) {
             const transaction = db.transaction([storeName], 'readwrite');
             const store = transaction.objectStore(storeName);
             const request = store.delete(id);
-    
+
             request.onsuccess = function() {
                 console.log('Tile deleted:', id);
                 displayTiles();
             };
-    
+
             request.onerror = function(event) {
                 console.error('Error deleting tile:', event.target.error.message);
             };
         }
-    
+
         // Handle editing and saving changes in the tile popup
         tilePopup.addEventListener('input', function(event) {
             if (event.target === popupTileTitle) {
@@ -1158,35 +1078,35 @@ New code - cards
                 currentTile.content = event.target.value;
             }
         });
-    
+
         function saveTileChanges() {
             const transaction = db.transaction([storeName], 'readwrite');
             const store = transaction.objectStore(storeName);
             const request = store.put(currentTile);
-    
+
             request.onsuccess = function() {
                 console.log('Tile updated:', currentTile.id);
                 displayTiles();
             };
-    
+
             request.onerror = function(event) {
                 console.error('Error updating tile:', event.target.error.message);
             };
         }
-    
+
         // Implement search functionality
         searchInput.addEventListener('input', function() {
             displayTiles();
         });
-    
+
         // Center search results
         searchResultsContainer.style.justifyContent = 'center';
-    
+
         // Card Image Upload Handling
         cardImageUploadArea.addEventListener('click', () => {
             cardImageInput.click();
         });
-    
+
         cardImageInput.addEventListener('change', () => {
             if (cardImageInput.files.length > 0) {
                 handleCardImageUpload(cardImageInput.files[0]);
@@ -1194,7 +1114,7 @@ New code - cards
                 cardImageUploadMessage.textContent = 'Upload a background picture';
             }
         });
-    
+
         function handleCardImageUpload(file) {
             const reader = new FileReader();
             reader.onload = function(event) {
@@ -1204,32 +1124,32 @@ New code - cards
             };
             reader.readAsArrayBuffer(file);
         }
-    
+
         // Open Tile Selection Popup
         function openTileSelectionPopup() {
             tileSelectionOverlay.classList.add('open');
             tileSelectionSearchInput.value = '';
             displayTileSelectionTiles();
         }
-    
+
         // Close Tile Selection Popup when clicking outside
         tileSelectionOverlay.addEventListener('click', function(event) {
             if (event.target === tileSelectionOverlay) {
                 tileSelectionOverlay.classList.remove('open');
             }
         });
-    
+
         // Display Tiles in Tile Selection Popup
         function displayTileSelectionTiles() {
             tileSelectionContainer.innerHTML = '';
             const transaction = db.transaction([storeName], 'readonly');
             const store = transaction.objectStore(storeName);
             const request = store.getAll();
-    
+
             request.onsuccess = function(event) {
                 let tiles = event.target.result;
                 const searchTerm = tileSelectionSearchInput.value.toLowerCase();
-    
+
                 if (searchTerm) {
                     tiles = tiles.filter(tile => {
                         const titleMatch = tile.title.toLowerCase().includes(searchTerm);
@@ -1237,26 +1157,26 @@ New code - cards
                         return titleMatch || contentMatch;
                     });
                 }
-    
+
                 tiles.forEach(tile => {
                     const tileDiv = document.createElement('div');
                     tileDiv.classList.add('tile-selection-tile');
                     tileDiv.dataset.id = tile.id;
-    
+
                     if (selectedTileIds.includes(tile.id)) {
                         tileDiv.classList.add('selected');
                     }
-    
+
                     const title = document.createElement('h3');
                     title.textContent = tile.title;
                     tileDiv.appendChild(title);
-    
+
                     // Add tile type tag
                     const tileTag = document.createElement('div');
                     tileTag.classList.add('tile-tag');
                     tileTag.textContent = tile.type === 'text' ? 'txt' : tile.type === 'image' ? 'img' : 'mov';
                     tileDiv.appendChild(tileTag);
-    
+
                     // Handle selection
                     tileDiv.addEventListener('click', () => {
                         if (selectedTileIds.includes(tile.id)) {
@@ -1267,74 +1187,74 @@ New code - cards
                             tileDiv.classList.add('selected');
                         }
                     });
-    
+
                     // Double-click to open tile
                     tileDiv.addEventListener('dblclick', () => {
                         openTilePopup(tile);
                     });
-    
+
                     tileSelectionContainer.appendChild(tileDiv);
                 });
             };
-    
+
             request.onerror = function(event) {
                 console.error('Error fetching tiles:', event.target.error.message);
             };
         }
-    
+
         // Search in Tile Selection Popup
         tileSelectionSearchInput.addEventListener('input', function() {
             displayTileSelectionTiles();
         });
-    
+
         // Add Selected Tiles to Card
         function addSelectedTilesToCard() {
             tileSelectionOverlay.classList.remove('open');
             displaySelectedTiles();
         }
-    
+
         // Display Selected Tiles in Card Form
         function displaySelectedTiles() {
             selectedTilesContainer.innerHTML = '';
             if (selectedTileIds.length === 0) {
                 return;
             }
-    
+
             const transaction = db.transaction([storeName], 'readonly');
             const store = transaction.objectStore(storeName);
             const request = store.getAll();
-    
+
             request.onsuccess = function(event) {
                 const tiles = event.target.result;
                 const selectedTiles = tiles.filter(tile => selectedTileIds.includes(tile.id));
-    
+
                 selectedTiles.forEach((tile, index) => {
                     const tileDiv = document.createElement('div');
                     tileDiv.classList.add('tile');
                     tileDiv.dataset.id = tile.id;
-    
+
                     const title = document.createElement('h3');
                     title.textContent = tile.title;
                     tileDiv.appendChild(title);
-    
+
                     // Add tile type tag
                     const tileTag = document.createElement('div');
                     tileTag.classList.add('tile-tag');
                     tileTag.textContent = tile.type === 'text' ? 'txt' : tile.type === 'image' ? 'img' : 'mov';
                     tileDiv.appendChild(tileTag);
-    
+
                     // Add click event to open tile popup
                     tileDiv.addEventListener('click', () => openTilePopup(tile));
-    
+
                     selectedTilesContainer.appendChild(tileDiv);
                 });
             };
-    
+
             request.onerror = function(event) {
                 console.error('Error fetching tiles:', event.target.error.message);
             };
         }
-    
+
         // Save Card Function
         function saveCard() {
             console.log('saveCard function called');
@@ -1344,19 +1264,19 @@ New code - cards
                 alert('Please enter a card title.');
                 return;
             }
-    
+
             console.log('Card Image Blob:', cardImageBlob);
             if (!cardImageBlob) {
                 alert('Please upload a background image.');
                 return;
             }
-    
+
             console.log('Selected Tile IDs:', selectedTileIds);
             if (selectedTileIds.length === 0) {
                 alert('Please add at least one tile to the card.');
                 return;
             }
-    
+
             const data = {
                 title: title,
                 type: 'card',
@@ -1365,86 +1285,86 @@ New code - cards
                 timestamp: new Date()
             };
             console.log('Card Data to Save:', data);
-    
+
             addCard(data);
             plusOverlay.classList.remove('open');
         }
-    
+
         // Add Card to IndexedDB
         function addCard(data) {
             const transaction = db.transaction(['cards'], 'readwrite');
             const store = transaction.objectStore('cards');
             const request = store.add(data);
-    
+
             request.onsuccess = function() {
                 console.log('Card added to the store:', request.result);
                 displayCards();
             };
-    
+
             request.onerror = function(event) {
                 console.error('Error adding card:', event.target.error.message);
             };
         }
-    
+
         // Display Cards on Main Menu
         function displayCards() {
             cardsContainer.innerHTML = '';
             const transaction = db.transaction(['cards'], 'readonly');
             const store = transaction.objectStore('cards');
             const request = store.getAll();
-    
+
             request.onsuccess = function(event) {
                 const cards = event.target.result;
-    
+
                 cards.forEach(card => {
                     const cardDiv = document.createElement('div');
                     cardDiv.classList.add('card');
-    
+
                     // Card Image
                     const cardImageDiv = document.createElement('div');
                     cardImageDiv.classList.add('card-image');
                     const imgURL = URL.createObjectURL(card.imageBlob);
                     cardImageDiv.style.backgroundImage = `url('${imgURL}')`;
                     cardDiv.appendChild(cardImageDiv);
-    
+
                     // Card Content
                     const cardContentDiv = document.createElement('div');
                     cardContentDiv.style.flexGrow = '1';
-    
-                    const cardTitle = document.createElement('h3');
-                    cardTitle.classList.add('card-title');
-                    cardTitle.textContent = card.title;
-                    cardContentDiv.appendChild(cardTitle);
-    
+
+                    const cardTitleElem = document.createElement('h3');
+                    cardTitleElem.classList.add('card-title');
+                    cardTitleElem.textContent = card.title;
+                    cardContentDiv.appendChild(cardTitleElem);
+
                     const cardTilesContainer = document.createElement('div');
                     cardTilesContainer.classList.add('card-tiles-container');
-    
+
                     // Fetch tiles for this card
                     const transactionTiles = db.transaction([storeName], 'readonly');
                     const storeTiles = transactionTiles.objectStore(storeName);
                     const requestTiles = storeTiles.getAll();
-    
+
                     requestTiles.onsuccess = function(event) {
                         const tiles = event.target.result;
                         const cardTiles = tiles.filter(tile => card.tiles.includes(tile.id));
-    
+
                         cardTiles.forEach(tile => {
                             const tileDiv = createTileElement(tile);
                             cardTilesContainer.appendChild(tileDiv);
                         });
                     };
-    
+
                     requestTiles.onerror = function(event) {
                         console.error('Error fetching tiles for card:', event.target.error.message);
                     };
-    
+
                     cardContentDiv.appendChild(cardTilesContainer);
                     cardDiv.appendChild(cardContentDiv);
-    
+
                     cardsContainer.appendChild(cardDiv);
                 });
             };
-    
+
             request.onerror = function(event) {
                 console.error('Error fetching cards:', event.target.error.message);
             };
