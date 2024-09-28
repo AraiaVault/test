@@ -1,3 +1,115 @@
+// Save Card Function
+function saveCard() {
+    const title = cardTitle.value.trim();
+    if (!title) {
+        alert('Please enter a card title.');
+        return;
+    }
+
+    if (!cardImageBlob) {
+        alert('Please upload a background image.');
+        return;
+    }
+
+    if (selectedTileIds.length === 0) {
+        alert('Please add at least one tile to the card.');
+        return;
+    }
+
+    const data = {
+        title: title,
+        type: 'card',
+        imageBlob: cardImageBlob,
+        tiles: selectedTileIds,
+        timestamp: new Date()
+    };
+
+    addCard(data);
+}
+
+// Add Card to IndexedDB
+function addCard(data) {
+    const transaction = db.transaction(['cards'], 'readwrite');
+    const store = transaction.objectStore('cards');
+    const request = store.add(data);
+
+    request.onsuccess = function() {
+        console.log('Card added to the store:', request.result);
+        displayCards();
+        plusOverlay.classList.remove('open');
+        // Reset form fields
+        cardTitle.value = '';
+        cardImageBlob = null;
+        cardImageUploadMessage.textContent = 'Upload a background picture';
+        selectedTileIds = [];
+        selectedTilesContainer.innerHTML = '';
+    };
+
+    request.onerror = function(event) {
+        console.error('Error adding card:', event.target.error.message);
+        alert('Error saving card. Please try again.');
+    };
+}
+
+// Ensure the save button is properly connected
+document.getElementById('saveCardButton').addEventListener('click', saveCard);
+// Save Card Function
+function saveCard() {
+    const title = cardTitle.value.trim();
+    if (!title) {
+        alert('Please enter a card title.');
+        return;
+    }
+
+    if (!cardImageBlob) {
+        alert('Please upload a background image.');
+        return;
+    }
+
+    if (selectedTileIds.length === 0) {
+        alert('Please add at least one tile to the card.');
+        return;
+    }
+
+    const data = {
+        title: title,
+        type: 'card',
+        imageBlob: cardImageBlob,
+        tiles: selectedTileIds,
+        timestamp: new Date()
+    };
+
+    addCard(data);
+}
+
+// Add Card to IndexedDB
+function addCard(data) {
+    const transaction = db.transaction(['cards'], 'readwrite');
+    const store = transaction.objectStore('cards');
+    const request = store.add(data);
+
+    request.onsuccess = function() {
+        console.log('Card added to the store:', request.result);
+        displayCards();
+        plusOverlay.classList.remove('open');
+        // Reset form fields
+        cardTitle.value = '';
+        cardImageBlob = null;
+        cardImageUploadMessage.textContent = 'Upload a background picture';
+        selectedTileIds = [];
+        selectedTilesContainer.innerHTML = '';
+    };
+
+    request.onerror = function(event) {
+        console.error('Error adding card:', event.target.error.message);
+        alert('Error saving card. Please try again.');
+    };
+}
+
+// Ensure the save button is properly connected
+document.getElementById('saveCardButton').addEventListener('click', saveCard);
+The good one
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
