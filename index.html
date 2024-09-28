@@ -709,7 +709,7 @@ const storeName = 'tiles';
 
 
 function openDB() {
-    const request = indexedDB.open(dbName, 1);
+    const request = indexedDB.open(dbName, 2);
 
 
     request.onupgradeneeded = function(event) {
@@ -1428,45 +1428,6 @@ function saveCard() {
     addCard(data);
 }
 
-function addCard(data) {
-    console.log('addCard function called with data:', data);
-    const transaction = db.transaction(['cards'], 'readwrite');
-    const store = transaction.objectStore('cards');
-    const request = store.add(data);
-
-    request.onsuccess = function(event) {
-        console.log('Card successfully added to the store:', event.target.result);
-        displayCards();
-        plusOverlay.classList.remove('open');
-        resetCardForm();
-    };
-
-    request.onerror = function(event) {
-        console.error('Error adding card:', event.target.error);
-        alert('Error saving card. Please try again.');
-    };
-
-    transaction.oncomplete = function(event) {
-        console.log('Transaction completed');
-    };
-
-    transaction.onerror = function(event) {
-        console.error('Transaction error:', event.target.error);
-    };
-}
-
-function resetCardForm() {
-    cardTitle.value = '';
-    cardImageBlob = null;
-    cardImageUploadMessage.textContent = 'Upload a background picture';
-    selectedTileIds = [];
-    selectedTilesContainer.innerHTML = '';
-}
-
-// Ensure this line is present in your initialization code
-document.getElementById('saveCardButton').addEventListener('click', saveCard);
-
-
 // Add Card to IndexedDB
 function addCard(data) {
     const transaction = db.transaction(['cards'], 'readwrite');
@@ -1490,9 +1451,6 @@ function addCard(data) {
         alert('Error saving card. Please try again.');
     };
 }
-
-// Ensure the save button is properly connected
-document.getElementById('saveCardButton').addEventListener('click', saveCard);
 
 
 // Display Cards on Main Menu
