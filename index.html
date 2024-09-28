@@ -1398,6 +1398,7 @@ function displaySelectedTiles() {
 
 // Save Card Function
 function saveCard() {
+    console.log('saveCard function called');
     const title = cardTitle.value.trim();
     if (!title) {
         alert('Please enter a card title.');
@@ -1414,6 +1415,8 @@ function saveCard() {
         return;
     }
 
+    console.log('All validations passed, preparing to save card');
+
     const data = {
         title: title,
         type: 'card',
@@ -1424,6 +1427,45 @@ function saveCard() {
 
     addCard(data);
 }
+
+function addCard(data) {
+    console.log('addCard function called with data:', data);
+    const transaction = db.transaction(['cards'], 'readwrite');
+    const store = transaction.objectStore('cards');
+    const request = store.add(data);
+
+    request.onsuccess = function(event) {
+        console.log('Card successfully added to the store:', event.target.result);
+        displayCards();
+        plusOverlay.classList.remove('open');
+        resetCardForm();
+    };
+
+    request.onerror = function(event) {
+        console.error('Error adding card:', event.target.error);
+        alert('Error saving card. Please try again.');
+    };
+
+    transaction.oncomplete = function(event) {
+        console.log('Transaction completed');
+    };
+
+    transaction.onerror = function(event) {
+        console.error('Transaction error:', event.target.error);
+    };
+}
+
+function resetCardForm() {
+    cardTitle.value = '';
+    cardImageBlob = null;
+    cardImageUploadMessage.textContent = 'Upload a background picture';
+    selectedTileIds = [];
+    selectedTilesContainer.innerHTML = '';
+}
+
+// Ensure this line is present in your initialization code
+document.getElementById('saveCardButton').addEventListener('click', saveCard);
+
 
 // Add Card to IndexedDB
 function addCard(data) {
