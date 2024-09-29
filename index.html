@@ -1,3 +1,5 @@
+The new one
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -441,6 +443,8 @@
     justify-content: center;
     margin-top: 15px;
     margin-bottom: 15px;
+    max-height: 150px; /* Adjust as needed to fit 2 rows */
+    overflow-y: auto;
 }
 
 
@@ -522,9 +526,14 @@
 
 
 .card {
-    display: flex;
-    align-items: flex-start;
+    position: relative;
+    width: 150px; /* Adjust as needed */
+    height: 100px;
+    background-size: cover;
+    background-position: center;
     margin-bottom: 30px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 
@@ -540,8 +549,21 @@
 
 
 .card-title {
-    font-size: 20px;
-    margin-bottom: 10px;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    margin: 0;
+    font-size: 14px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional for readability */
+    padding: 5px;
+    width: calc(100% - 10px);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
 }
 
 
@@ -579,8 +601,75 @@
     font-size: 24px;
     margin-bottom: 20px;
 }
+.sort-options {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
 
+.sort-options button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #444;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+}
 
+.sort-options button.active {
+    background-color: #666;
+}
+
+.sort-options button:hover {
+    background-color: #666;
+}
+.card-popup {
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    width: 800px; /* Wider than tile-popup */
+    max-height: 80%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    color: #fff;
+    text-align: center;
+    position: relative;
+}
+
+#cardPopupImageContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#cardPopupImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+#cardImageReplaceBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.card-selected-tiles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    max-height: 220px; /* Adjust as needed to show 3 rows */
+    overflow-y: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.card-selected-tiles-container .tile {
+    flex: 0 0 calc(33.333% - 10px); /* 3 tiles per row */
+}
     </style>
 </head>
 <body>
@@ -667,11 +756,6 @@
         <!-- Cards will be displayed here -->
     </div>
 
-
-    <!-- All Tiles Section -->
-    <div class="all-tiles-section">
-        <h2 class="all-tiles-title">All Tiles</h2>
-        <div class="search-results-container" id="searchResultsContainer"></div>
         <!-- Tiles Display Area -->
         <div class="tiles-container" id="tilesContainer"></div>
     </div>
@@ -696,7 +780,31 @@
             <div id="popupTileContent"></div>
         </div>
     </div>
-
+    <!-- Sort Options -->
+<div class="sort-options">
+    <button id="sortByCardsBtn" class="active">Cards</button>
+    <button id="sortByTilesBtn">Tiles</button>
+</div>
+<!-- Card Menu Popup -->
+<div class="overlay" id="cardOverlay">
+    <div class="card-popup" id="cardPopup">
+        <!-- Card Image and Replace Button -->
+        <div id="cardPopupImageContainer">
+            <img id="cardPopupImage" src="" alt="Card Image">
+            <button class="tile-action-btn replace-btn" id="cardImageReplaceBtn">Replace</button>
+        </div>
+        <!-- Card Title -->
+        <input type="text" id="cardPopupTitle" class="popup-tile-title">
+        <!-- Selected Tiles -->
+        <div class="card-selected-tiles-container" id="cardPopupSelectedTilesContainer"></div>
+        <!-- Add Tiles Plus Button -->
+        <div class="add-tiles-container">
+            <div class="add-tiles-plus" onclick="openTileSelectionPopupForCard()">+</div>
+        </div>
+        <!-- Save Button -->
+        <button id="saveCardChangesButton" class="save-btn">Save</button>
+    </div>
+</div>
     <!-- JavaScript for IndexedDB and Functionality -->
     <script>
         // JavaScript Code
@@ -792,6 +900,25 @@ let currentTile = null; // To keep track of the tile being viewed/edited
 let cardImageBlob = null; // To store the uploaded card image
 let selectedTileIds = []; // To store selected tile IDs for the card
 
+const cardOverlay = document.getElementById('cardOverlay');
+const cardPopup = document.getElementById('cardPopup');
+const cardPopupImage = document.getElementById('cardPopupImage');
+const cardImageReplaceBtn = document.getElementById('cardImageReplaceBtn');
+const cardPopupTitle = document.getElementById('cardPopupTitle');
+const cardPopupSelectedTilesContainer = document.getElementById('cardPopupSelectedTilesContainer');
+const saveCardChangesButton = document.getElementById('saveCardChangesButton');
+
+let currentCard = null;
+
+// Close card popup when clicking outside
+cardOverlay.addEventListener('click', function(event) {
+    if (event.target === cardOverlay) {
+        cardOverlay.classList.remove('open');
+    }
+});
+
+// Save card changes
+saveCardChangesButton.addEventListener('click', saveCardChanges);
 
 // Open Plus Popup
 function openPlusPopup() {
@@ -967,7 +1094,9 @@ function displayTiles() {
 
 
     request.onsuccess = function(event) {
-        let tiles = event.target.result;
+    let tiles = event.target.result;
+    // Sort tiles from new to old based on timestamp
+    tiles.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         const searchTerm = searchInput.value.toLowerCase();
 
 
@@ -1457,6 +1586,8 @@ function displayCards() {
     const transaction = db.transaction(['cards'], 'readonly');
     const store = transaction.objectStore('cards');
     const request = store.getAll();
+    
+    cardDiv.addEventListener('click', () => openCardPopup(card));
 
     request.onsuccess = function(event) {
         const cards = event.target.result;
@@ -1464,6 +1595,7 @@ function displayCards() {
         cards.forEach(card => {
             const cardDiv = document.createElement('div');
             cardDiv.classList.add('card');
+            cardDiv.style.backgroundImage = `url('${imgURL}')`;
 
             // Card Image
             const cardImageDiv = document.createElement('div');
@@ -1476,10 +1608,11 @@ function displayCards() {
             const cardContentDiv = document.createElement('div');
             cardContentDiv.style.flexGrow = '1';
 
-            const cardTitle = document.createElement('h3');
-            cardTitle.classList.add('card-title');
-            cardTitle.textContent = card.title;
-            cardContentDiv.appendChild(cardTitle);
+            // Card Title
+            const cardTitleDiv = document.createElement('h3');
+            cardTitleDiv.classList.add('card-title');
+            cardTitleDiv.textContent = card.title;
+            cardDiv.appendChild(cardTitleDiv);
 
             const cardTilesContainer = document.createElement('div');
             cardTilesContainer.classList.add('card-tiles-container');
@@ -1514,6 +1647,137 @@ function displayCards() {
         console.error('Error fetching cards:', event.target.error.message);
     };
 }
+const sortByCardsBtn = document.getElementById('sortByCardsBtn');
+const sortByTilesBtn = document.getElementById('sortByTilesBtn');
+
+sortByCardsBtn.addEventListener('click', () => {
+    sortByCardsBtn.classList.add('active');
+    sortByTilesBtn.classList.remove('active');
+    displayCards();
+    cardsContainer.style.display = 'block';
+    tilesContainer.style.display = 'none';
+    searchInput.placeholder = 'Search cards...';
+});
+
+sortByTilesBtn.addEventListener('click', () => {
+    sortByTilesBtn.classList.add('active');
+    sortByCardsBtn.classList.remove('active');
+    displayTiles();
+    cardsContainer.style.display = 'none';
+    tilesContainer.style.display = 'flex';
+    searchInput.placeholder = 'Search tiles...';
+});
+
+function openCardPopup(card) {
+    currentCard = card;
+    cardOverlay.classList.add('open');
+
+    // Display card image
+    const imgURL = URL.createObjectURL(card.imageBlob);
+    cardPopupImage.src = imgURL;
+
+    // Set up replace button
+    cardImageReplaceBtn.onclick = () => replaceCardImage();
+
+    // Set card title
+    cardPopupTitle.value = card.title;
+
+    // Display selected tiles
+    displayCardPopupSelectedTiles();
+}
+
+function replaceCardImage() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = () => {
+        if (input.files.length > 0) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                currentCard.imageBlob = new Blob([event.target.result], { type: file.type });
+                // Update the image in the popup
+                const imgURL = URL.createObjectURL(currentCard.imageBlob);
+                cardPopupImage.src = imgURL;
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    };
+    input.click();
+}
+
+function displayCardPopupSelectedTiles() {
+    cardPopupSelectedTilesContainer.innerHTML = '';
+
+    if (currentCard.tiles.length === 0) {
+        return;
+    }
+
+    const transaction = db.transaction([storeName], 'readonly');
+    const store = transaction.objectStore(storeName);
+    const request = store.getAll();
+
+    request.onsuccess = function(event) {
+        const tiles = event.target.result;
+        const selectedTiles = tiles.filter(tile => currentCard.tiles.includes(tile.id));
+
+        selectedTiles.forEach(tile => {
+            const tileDiv = createTileElement(tile);
+            cardPopupSelectedTilesContainer.appendChild(tileDiv);
+        });
+    };
+
+    request.onerror = function(event) {
+        console.error('Error fetching tiles:', event.target.error.message);
+    };
+}
+
+function openTileSelectionPopupForCard() {
+    tileSelectionOverlay.classList.add('open');
+    tileSelectionSearchInput.value = '';
+    selectedTileIds = currentCard.tiles.slice(); // Copy current card tiles
+    displayTileSelectionTiles();
+}
+
+function addSelectedTilesToCard() {
+    tileSelectionOverlay.classList.remove('open');
+    currentCard.tiles = selectedTileIds.slice(); // Update current card tiles
+    displayCardPopupSelectedTiles();
+}
+
+function saveCardChanges() {
+    currentCard.title = cardPopupTitle.value.trim();
+
+    if (!currentCard.title) {
+        alert('Please enter a card title.');
+        return;
+    }
+
+    if (!currentCard.imageBlob) {
+        alert('Please upload a background image.');
+        return;
+    }
+
+    if (currentCard.tiles.length === 0) {
+        alert('Please add at least one tile to the card.');
+        return;
+    }
+
+    const transaction = db.transaction(['cards'], 'readwrite');
+    const store = transaction.objectStore('cards');
+    const request = store.put(currentCard);
+
+    request.onsuccess = function() {
+        console.log('Card updated:', currentCard.id);
+        displayCards();
+        cardOverlay.classList.remove('open');
+    };
+
+    request.onerror = function(event) {
+        console.error('Error updating card:', event.target.error.message);
+    };
+}
+
 
     </script>
 </body>
